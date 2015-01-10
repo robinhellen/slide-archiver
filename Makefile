@@ -19,17 +19,17 @@ $(BINARY_NAME): $(SOURCES) $(foreach pkg, $(LOCAL_PACKAGES), vapi/$(pkg).vapi) $
 vapi/sane-backends.vapi: sane-backend-vapi/sane-backends.vapi
 	mkdir -p vapi
 	cp sane-backend-vapi/sane-backends.vapi vapi/
+
 vapi/vala-scan.vapi: vala-scan/vala-scan.vapi
 	mkdir -p vapi
 	cp vala-scan/vala-scan.vapi vapi/
-
 h/vala-scan.h: vala-scan/vala-scan.h
 	mkdir -p h
 	cp vala-scan/vala-scan.h h/
-
 lib/vala-scan.so: vala-scan/vala-scan.so
 	mkdir -p lib
 	cp vala-scan/vala-scan.so lib/
 
 vala-scan/vala-scan.vapi vala-scan/vala-scan.so vala-scan/vala-scan.h:
 	$(MAKE) -C vala-scan
+
