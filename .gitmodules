@@ -1,0 +1,6 @@
+[submodule "sane-backend-vapi"]
+	path = sane-backend-vapi
+	url = git@github.com:robinhellen/sane-backend-vapi.git
+[submodule "vala-scan"]
+	path = vala-scan
+	url = git@github.com:robinhellen/vala-scan.git
