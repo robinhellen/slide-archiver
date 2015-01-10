@@ -17,7 +17,7 @@ namespace SlideArchiver
 
             var format = formatDetector.GetFormat(scanner);
 
-            var pictureData = dataGatherer.GetPictureData(scannner);
+            var pictureData = dataGatherer.GetPictureData(scanner);
 
             int i = 0;
             foreach(var frame in format.Frames)
@@ -30,17 +30,17 @@ namespace SlideArchiver
 
     public interface IScannerSelector : Object
     {
-        public abstract Scanner GetScanner();
+        public abstract Scan.Scanner GetScanner();
     }
 
     public interface IFormatDetector : Object
     {
-        public abstract FilmFormat GetFormat(Scanner scanner);
+        public abstract FilmFormat GetFormat(Scan.Scanner scanner);
     }
 
     public interface IPictureDataGatherer : Object
     {
-        public abstract PictureData GetPictureData(Scanner scanner);
+        public abstract PictureData GetPictureData(Scan.Scanner scanner);
     }
 
     public interface IFrameScanner : Object
@@ -55,7 +55,7 @@ namespace SlideArchiver
 
     public class FilmFormat : Object
     {
-        public Collection<FrameData> frames;
+        public Collection<FrameData> Frames;
     }
 
     public class Frame : Object {}

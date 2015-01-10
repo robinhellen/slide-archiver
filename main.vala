@@ -7,5 +7,7 @@ namespace SlideArchiver
         var archiver = new Archiver();
 
         archiver.Run();
+
+        return 0;
     }
 }
