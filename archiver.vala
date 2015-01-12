@@ -14,6 +14,11 @@ namespace SlideArchiver
         public void Run()
         {
             var scanner = scannerSelector.GetScanner();
+            if(scanner == null)
+            {
+                stderr.printf("Unable to find a suitable scanner.");
+                return;
+            }
 
             var format = formatDetector.GetFormat(scanner);
 
@@ -30,7 +35,7 @@ namespace SlideArchiver
 
     public interface IScannerSelector : Object
     {
-        public abstract Scan.Scanner GetScanner();
+        public abstract Scan.Scanner? GetScanner();
     }
 
     public interface IFormatDetector : Object
