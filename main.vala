@@ -9,7 +9,16 @@ namespace SlideArchiver
 
         var container = builder.Build();
 
-        var archiver = container.Resolve<Archiver>();
+        Archiver archiver;
+        try
+        {
+            archiver = container.Resolve<Archiver>();
+        }
+        catch(ResolveError e)
+        {
+            stderr.printf(@"Unable to properly run the archiver: $(e.message)\n");
+            return -1;
+        }
 
         archiver.Run();
 
