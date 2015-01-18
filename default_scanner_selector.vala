@@ -16,6 +16,7 @@ namespace SlideArchiver
                     if(scanner.name.has_prefix("pixma"))
                         return scanner;
                 }
+                return allScanners.to_array()[0];
             }
             catch(ScannerError e)
             {
