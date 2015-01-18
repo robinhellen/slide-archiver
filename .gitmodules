@@ -4,3 +4,6 @@
 [submodule "vala-scan"]
 	path = vala-scan
 	url = git@github.com:robinhellen/vala-scan.git
+[submodule "diva"]
+	path = diva
+	url = git@github.com:robinhellen/diva.git

@@ -3,8 +3,8 @@ BINARY_NAME = slide-archiver
 SOURCES = $(wildcard *.vala)
 VALAC = valac-0.24
 
-LOCAL_PACKAGES= sane-backends vala-scan
-LOCAL_LIBS= vala-scan
+LOCAL_PACKAGES= sane-backends vala-scan diva
+LOCAL_LIBS= vala-scan diva
 PACKAGES = gee-0.8 $(LOCAL_PACKAGES)
 VALA_PKG_ARGS = $(foreach pkg, $(PACKAGES), --pkg $(pkg))
 VALA_OPTS = --vapidir=vapi
@@ -30,6 +30,19 @@ lib/vala-scan.so: vala-scan/vala-scan.so
 	mkdir -p lib
 	cp vala-scan/vala-scan.so lib/
 
+vapi/diva.vapi: diva/diva.vapi
+	mkdir -p vapi
+	cp diva/diva.vapi vapi/
+h/diva.h: diva/diva.h
+	mkdir -p h
+	cp diva/diva.h h/
+lib/diva.so: diva/diva.so
+	mkdir -p lib
+	cp diva/diva.so lib/
+
+
 vala-scan/vala-scan.vapi vala-scan/vala-scan.so vala-scan/vala-scan.h:
 	$(MAKE) -C vala-scan
+diva/diva.vapi diva/diva.so diva/diva.h:
+	$(MAKE) -C diva
 

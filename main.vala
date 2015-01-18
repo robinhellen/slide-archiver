@@ -1,10 +1,15 @@
-
+using Diva;
 
 namespace SlideArchiver
 {
     public int main(string[] args)
     {
-        var archiver = new Archiver();
+        var builder = new ContainerBuilder();
+        builder.Register<Archiver>();
+
+        var container = builder.Build();
+
+        var archiver = container.Resolve<Archiver>();
 
         archiver.Run();
 
