@@ -1,4 +1,5 @@
 using Diva;
+using Scan;
 
 namespace SlideArchiver
 {
@@ -6,6 +7,8 @@ namespace SlideArchiver
     {
         var builder = new ContainerBuilder();
         builder.Register<Archiver>();
+        builder.Register<DefaultScannerSelector>().As<IScannerSelector>();
+        builder.Register<ScanContext>();
 
         var container = builder.Build();
 
