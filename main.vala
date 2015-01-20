@@ -8,6 +8,7 @@ namespace SlideArchiver
         var builder = new ContainerBuilder();
         builder.Register<Archiver>();
         builder.Register<DefaultScannerSelector>().As<IScannerSelector>();
+        builder.Register<FixedFormatDetector>().As<IFormatDetector>();
         builder.Register<ScanContext>();
 
         var container = builder.Build();

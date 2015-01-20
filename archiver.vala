@@ -58,13 +58,7 @@ namespace SlideArchiver
         public abstract void Store(Frame frame, PictureData data, int sequenceNo);
     }
 
-    public class FilmFormat : Object
-    {
-        public Collection<FrameData> Frames;
-    }
-
     public class Frame : Object {}
-    public class FrameData : Object {}
 
     public class PictureData : Object
     {
