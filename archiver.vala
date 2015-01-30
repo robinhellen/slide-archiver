@@ -27,7 +27,7 @@ namespace SlideArchiver
             int i = 0;
             foreach(var frame in format.Frames)
             {
-                var capturedFrame = frameScanner.Scan(frame, pictureData.Resolution);
+                var capturedFrame = frameScanner.Scan(scanner, frame, pictureData.Resolution);
                 frameStorage.Store(capturedFrame, pictureData, i);
             }
         }
@@ -50,7 +50,7 @@ namespace SlideArchiver
 
     public interface IFrameScanner : Object
     {
-        public abstract Frame Scan(FrameData frameData, int resolution);
+        public abstract Frame Scan(Scan.Scanner scanner, FrameData frameData, int resolution);
     }
 
     public interface IFrameStorage : Object
