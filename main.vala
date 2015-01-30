@@ -11,6 +11,7 @@ namespace SlideArchiver
         builder.Register<FixedFormatDetector>().As<IFormatDetector>();
         builder.Register<PictureDataGatherer>().As<IPictureDataGatherer>();
         builder.Register<FrameScanner>().As<IFrameScanner>();
+        builder.Register<NullFrameStorage>().As<IFrameStorage>();
         builder.Register<ScanContext>();
 
         var container = builder.Build();
