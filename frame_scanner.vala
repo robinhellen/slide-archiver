@@ -10,23 +10,24 @@ namespace SlideArchiver
         {
             var session = Context.open_scanner(scanner);
             PrintCurrentParameters(session);
-            session.parameters_changed.connect(PrintCurrentParameters);
+            session.parameters_changed.connect_after(PrintCurrentParameters);
             PrintCurrentCoordinates(session);
             try
             {
-                SetScannerOption(session, "tl-x", 90.95);
-                SetScannerOption(session, "tl-y", 44.18);
+                SetScannerOption(session, "tl-x", frame.Left);
+                SetScannerOption(session, "tl-y", frame.Top);
+                SetScannerOption(session, "br-x", frame.Right);
+                SetScannerOption(session, "br-y", frame.Bottom);
                 SetScannerOptionString(session, "source", "Transparency Unit");
                 SetScannerOptionInt(session, "resolution", 1200);
                 SetScannerOptionString(session, "mode", "Color");
-                SetScannerOption(session, "br-x", 118.20);
-                SetScannerOption(session, "br-y", 67.22);
             }
             catch(ScannerError e)
             {
                 stderr.printf(@"$(e.message)\n");
             }
 
+            PrintCurrentParameters(session);
             var scanned = session.capture();
 
             return CreateFrameFromScannedFrame(scanned);
