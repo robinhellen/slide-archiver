@@ -1,11 +1,11 @@
 
 BINARY_NAME = slide-archiver
 SOURCES = $(wildcard *.vala)
-VALAC = valac-0.24
+VALAC = valac-0.26
 
 LOCAL_PACKAGES= sane-backends vala-scan diva
 LOCAL_LIBS= vala-scan diva
-PACKAGES = gee-0.8 $(LOCAL_PACKAGES)
+PACKAGES = gee-0.8 gdk-3.0 $(LOCAL_PACKAGES)
 VALA_PKG_ARGS = $(foreach pkg, $(PACKAGES), --pkg $(pkg))
 VALA_OPTS = --vapidir=vapi
 C_OPTS = -Ih -g $(foreach lib, $(LOCAL_LIBS), lib/$(lib).so)

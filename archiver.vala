@@ -58,7 +58,14 @@ namespace SlideArchiver
         public abstract void Store(Frame frame, PictureData data, int sequenceNo);
     }
 
-    public class Frame : Object {}
+    public class Frame : Object
+    {
+        public int BytesPerLine;
+        public int Depth;
+        public int Lines;
+        public int PixelsPerLine;
+        public uint8[] data;
+    }
 
     public class PictureData : Object
     {

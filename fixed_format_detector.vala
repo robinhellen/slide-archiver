@@ -15,9 +15,9 @@ namespace SlideArchiver
             var format = new FilmFormat();
             format.Frames = new ArrayList<FrameData>();
             format.Frames.add(new FrameData());
+            /*format.Frames.add(new FrameData());
             format.Frames.add(new FrameData());
-            format.Frames.add(new FrameData());
-            format.Frames.add(new FrameData());
+            format.Frames.add(new FrameData());*/
             return format;
         }
     }
