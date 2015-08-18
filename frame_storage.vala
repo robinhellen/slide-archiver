@@ -25,7 +25,9 @@ namespace SlideArchiver
             }
 
             var pixbuf = new Pixbuf.from_data(eightBitData, Colorspace.RGB, false, 8, frame.PixelsPerLine, frame.Lines, frame.BytesPerLine / 2);
-            pixbuf.save(@"/home/robin/Pictures/foo$(index++).bmp", "bmp");
+            var saveFolder = data.FilmRoll.Folder;
+            var saveFile = saveFolder.get_child(@"img_$(data.FilmRoll.NextFrame + sequenceNo).bmp");
+            pixbuf.save(saveFile.get_path(), "bmp");
         }
     }
 }

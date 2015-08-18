@@ -5,6 +5,7 @@ namespace SlideArchiver
     public class FilmFormat : Object
     {
         public Collection<FrameData> Frames;
+        public Collection<string> FilmTags;
     }
 
     public class FrameData : Object

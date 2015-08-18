@@ -22,13 +22,13 @@ namespace SlideArchiver
 
             var format = formatDetector.GetFormat(scanner);
 
-            var pictureData = dataGatherer.GetPictureData(scanner);
+            var pictureData = dataGatherer.GetPictureData(scanner, format);
 
             int i = 0;
             foreach(var frame in format.Frames)
             {
-                var capturedFrame = frameScanner.Scan(scanner, frame, pictureData.Resolution);
-                frameStorage.Store(capturedFrame, pictureData, i);
+                var capturedFrame = frameScanner.Scan(scanner, frame, 300);
+                frameStorage.Store(capturedFrame, pictureData, i++);
             }
         }
     }
@@ -45,7 +45,7 @@ namespace SlideArchiver
 
     public interface IPictureDataGatherer : Object
     {
-        public abstract PictureData GetPictureData(Scan.Scanner scanner);
+        public abstract PictureData GetPictureData(Scan.Scanner scanner, FilmFormat format);
     }
 
     public interface IFrameScanner : Object
@@ -69,6 +69,15 @@ namespace SlideArchiver
 
     public class PictureData : Object
     {
-        public int Resolution {get; set;}
+        public FilmRoll FilmRoll {get; construct;}
+        public int StartingFrameNumber {get; construct;}
+    }
+
+    public class FilmRoll : Object
+    {
+        public int Id {get; construct set;}
+        public Collection<string> Tags {get; construct;}
+        public int NextFrame {get; construct;}
+        public File Folder {get; construct set;}
     }
 }

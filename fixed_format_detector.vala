@@ -13,11 +13,17 @@ namespace SlideArchiver
         private FilmFormat Canon9000Slides135()
         {
             var format = new FilmFormat();
+
             format.Frames = new ArrayList<FrameData>();
             format.Frames.add(Get135SlideFrame(0));
             format.Frames.add(Get135SlideFrame(1));
             format.Frames.add(Get135SlideFrame(2));
             format.Frames.add(Get135SlideFrame(3));
+
+            format.FilmTags = new ArrayList<string>();
+            format.FilmTags.add("film-size-135");
+            format.FilmTags.add("film-type-slide");
+
             return format;
         }
 
