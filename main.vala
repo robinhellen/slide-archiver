@@ -14,6 +14,7 @@ namespace SlideArchiver
         builder.Register<FrameScanner>().As<IFrameScanner>();
         builder.Register<PicturesFolderFrameStorage>().As<IFrameStorage>();
         builder.Register<FolderFilmStore>().As<FilmStorage>();
+        builder.Register<PixbufCreator>();
 
         builder.Register<ScanContext>().SingleInstance();
 

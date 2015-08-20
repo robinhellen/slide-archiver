@@ -8,6 +8,7 @@ namespace SlideArchiver
     {
         public FrameScanner Scanner {construct; private get;}
         public PictureDataGatherer Gatherer {construct; private get;}
+        public PixbufCreator PixbufCreator {construct; private get;}
 
         private Image[] images;
 
@@ -56,14 +57,7 @@ namespace SlideArchiver
                 var frame = f[i];
                 var scanned = yield Scanner.ScanAsync(scanner, frame, 300);
 
-                // take every other byte from the data
-                var newDataLength = scanned.data.length / 2;
-                var eightBitData = new uint8[newDataLength];
-                for(int j = 0; j < newDataLength; j++)
-                {
-                    eightBitData[j] = scanned.data[j * 2 + 1];
-                }
-                var pixbuf = new Pixbuf.from_data(eightBitData, Colorspace.RGB, false, 8, scanned.PixelsPerLine, scanned.Lines, scanned.BytesPerLine / 2);
+                var pixbuf = PixbufCreator.CreateScaledPixbufFromScannedFrame(scanned, 200);
 
                 var image = images[i];
                 image.set_from_pixbuf(pixbuf);
