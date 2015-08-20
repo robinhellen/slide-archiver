@@ -5,9 +5,9 @@ VALAC = valac-0.26
 
 LOCAL_PACKAGES= sane-backends vala-scan diva
 LOCAL_LIBS= vala-scan diva
-PACKAGES = gee-0.8 gdk-3.0 $(LOCAL_PACKAGES)
+PACKAGES = gee-0.8 gdk-3.0 gtk+-3.0 $(LOCAL_PACKAGES)
 VALA_PKG_ARGS = $(foreach pkg, $(PACKAGES), --pkg $(pkg))
-VALA_OPTS = --vapidir=vapi
+VALA_OPTS = --vapidir=vapi -g
 C_OPTS = -Ih -g $(foreach lib, $(LOCAL_LIBS), lib/$(lib).so)
 
 all: $(BINARY_NAME)

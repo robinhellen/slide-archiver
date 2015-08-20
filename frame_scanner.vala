@@ -29,6 +29,33 @@ namespace SlideArchiver
             return CreateFrameFromScannedFrame(scanned);
         }
 
+        public async Frame ScanAsync(Scan.Scanner scanner, FrameData frame, int resolution)
+        {
+            var session = Context.open_scanner(scanner);
+            try
+            {
+                SetScannerOption(session, "tl-x", frame.Left);
+                SetScannerOption(session, "tl-y", frame.Top);
+                SetScannerOption(session, "br-x", frame.Right);
+                SetScannerOption(session, "br-y", frame.Bottom);
+                SetScannerOptionString(session, "source", "Transparency Unit");
+                SetScannerOptionInt(session, "resolution", resolution);
+                SetScannerOptionString(session, "mode", "Color");
+            }
+            catch(ScannerError e)
+            {
+                stderr.printf(@"$(e.message)\n");
+            }
+
+            var scanned = yield session.capture_async();
+
+            // We need to do the callback like this otherwise the session won't get cleaned up until the whole async chain finishes!
+            Idle.add(ScanAsync.callback);
+            yield;
+
+            return CreateFrameFromScannedFrame(scanned);
+        }
+
         private void SetScannerOption(ScannerSession session, string optionName, double value)
             throws ScannerError
         {

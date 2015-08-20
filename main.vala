@@ -10,6 +10,7 @@ namespace SlideArchiver
         builder.Register<DefaultScannerSelector>().As<IScannerSelector>();
         builder.Register<FixedFormatDetector>().As<IFormatDetector>();
         builder.Register<PictureDataGatherer>().As<IPictureDataGatherer>();
+        builder.Register<UiPictureDataGatherer>().As<IPictureDataGatherer>();
         builder.Register<FrameScanner>().As<IFrameScanner>();
         builder.Register<PicturesFolderFrameStorage>().As<IFrameStorage>();
         builder.Register<FolderFilmStore>().As<FilmStorage>();
@@ -17,6 +18,8 @@ namespace SlideArchiver
         builder.Register<ScanContext>().SingleInstance();
 
         var container = builder.Build();
+
+        Gtk.init(ref args);
 
         Archiver archiver;
         try
