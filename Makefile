@@ -1,6 +1,6 @@
 
 BINARY_NAME = slide-archiver
-SOURCES = $(wildcard *.vala)
+SOURCES = $(wildcard *.vala) $(wildcard ui/*.vala)
 VALAC = valac-0.26
 
 LOCAL_PACKAGES= sane-backends vala-scan diva

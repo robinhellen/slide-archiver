@@ -37,6 +37,7 @@ namespace SlideArchiver
                 table.attach(image, 0, 2*i, 1, 2);
 
                 var buttonBox = new ButtonBox(Orientation.HORIZONTAL);
+                buttonBox.pack_start(new Button());
                 table.attach(buttonBox, 1, 2 * i + 1, 1, 1);
                 images[i] = image;
                 i++;

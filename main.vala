@@ -15,12 +15,19 @@ namespace SlideArchiver
         builder.Register<PicturesFolderFrameStorage>().As<IFrameStorage>();
         builder.Register<FolderFilmStore>().As<FilmStorage>();
         builder.Register<PixbufCreator>();
+        builder.RegisterModule(new Ui.UiModule());
 
         builder.Register<ScanContext>().SingleInstance();
 
         var container = builder.Build();
 
         Gtk.init(ref args);
+
+        var window = container.Resolve<Ui.PreviewWindow>();
+        window.destroy.connect(() => Gtk.main_quit());
+        window.show_all();
+        Gtk.main();
+
 
         Archiver archiver;
         try
