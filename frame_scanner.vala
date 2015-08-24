@@ -29,7 +29,7 @@ namespace SlideArchiver
             return CreateFrameFromScannedFrame(scanned);
         }
 
-        public async Frame ScanAsync(Scan.Scanner scanner, FrameData frame, int resolution)
+        public async Frame ScanAsync(Scan.Scanner scanner, FrameData frame, int resolution, ProgressReporter reporter = null)
         {
             var session = Context.open_scanner(scanner);
             try
@@ -47,7 +47,7 @@ namespace SlideArchiver
                 stderr.printf(@"$(e.message)\n");
             }
 
-            var scanned = yield session.capture_async();
+            var scanned = yield session.capture_async(reporter);
 
             // We need to do the callback like this otherwise the session won't get cleaned up until the whole async chain finishes!
             Idle.add(ScanAsync.callback);

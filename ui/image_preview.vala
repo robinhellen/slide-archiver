@@ -1,6 +1,8 @@
 using Gdk;
 using Gtk;
 
+using Scan;
+
 namespace SlideArchiver.Ui
 {
     public class GridImagePreview : Grid, ImagePreview
@@ -20,20 +22,42 @@ namespace SlideArchiver.Ui
         {
             var scanner = ScannerSelector.GetScanner();
             var f = SourceSelector.Format.Frames.to_array();
+            var bars = new ProgressBar[f.length];
+            var reporters = new ProgressReporter[f.length];
+
+            for(int i = 0; i < f.length; i++)
+            {
+                bars[i] = new ProgressBar();
+                bars[i].set_fraction(0);
+                bars[i].text = "Waiting for scanner to be ready.";
+                bars[i].show_text = true;
+                reporters[i] = (ProgressReporter) Object.new(typeof(BarUpdaterProgress), Bar: bars[i]);
+                attach(bars[i], 0, 2 * i + 1, 1, 1);
+            }
 
             for(int i = 0; i < f.length; i++)
             {
                 var frame = f[i];
-                var scanned = yield FrameScanner.ScanAsync(scanner, frame, 300);
-
+                bars[i].text = "Scanning";
+                var scanned = yield FrameScanner.ScanAsync(scanner, frame, 300, reporters[i]);
+                bars[i].set_fraction(1);
                 var pixbuf = PixbufCreator.CreateScaledPixbufFromScannedFrame(scanned, 200);
 
                 var image = new Image.from_pixbuf(pixbuf);
-                insert_row(2*i);
-                insert_row(2 * i + 1);
+                remove(bars[i]);
                 attach(image, 0, 2*i, 1, 2);
                 image.show();
             }
+        }
+    }
+
+    private class BarUpdaterProgress : ProgressReporter, Object
+    {
+        public ProgressBar Bar {construct; private get;}
+
+        public void report(double progress)
+        {
+            Bar.set_fraction(progress);
         }
     }
 }
