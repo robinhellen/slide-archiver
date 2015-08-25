@@ -10,9 +10,16 @@ namespace SlideArchiver
 
     public class FrameData : Object
     {
+        construct
+        {
+            Tags = new LinkedList<string>();
+        }
+
         public double Top {get; construct;}
         public double Left {get; construct;}
         public double Right {get; construct;}
         public double Bottom {get; construct;}
+
+        public Collection<string> Tags {get; private set;}
     }
 }

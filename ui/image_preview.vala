@@ -47,6 +47,9 @@ namespace SlideArchiver.Ui
                 remove(bars[i]);
                 attach(image, 0, 2*i, 1, 2);
                 image.show();
+                var tags = new FrameTags();
+                attach(tags, 1, 2*i, 1, 1);
+                tags.show_all();
             }
         }
     }
