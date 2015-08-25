@@ -6,6 +6,7 @@ namespace SlideArchiver.Ui
     public class FrameTags : Box
     {
         public FrameData Frame {construct; get;}
+        private FlowBox flow;
 
         public FrameTags(FrameData frame)
         {
@@ -15,6 +16,13 @@ namespace SlideArchiver.Ui
         construct
         {
             orientation = Orientation.VERTICAL;
+            homogeneous = false;
+
+            flow = new FlowBox();
+            flow.orientation = Orientation.HORIZONTAL;
+            flow.min_children_per_line = 4;
+            flow.homogeneous = false;
+            pack_start(flow, true, true);
 
             var addButton = new Button.from_stock(ADD);
             pack_end(addButton, false);
@@ -38,7 +46,7 @@ namespace SlideArchiver.Ui
                 {
                     Frame.Tags.add(tag);
                     var label = new TagLabel(Frame, tag);
-                    pack_start(label);
+                    flow.add(label);
                     label.show_all();
                 }
                 window.destroy();
@@ -55,9 +63,6 @@ namespace SlideArchiver.Ui
             window.transient_for = (Window)get_ancestor(typeof(Window));
 
             window.show_all();
-            // store in the model
-
-            // update display.
         }
 
         private class TagLabel : Box
