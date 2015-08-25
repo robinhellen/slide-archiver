@@ -5,6 +5,13 @@ namespace SlideArchiver.Ui
 {
     public class FrameTags : Box
     {
+        public FrameData Frame {construct; get;}
+
+        public FrameTags(FrameData frame)
+        {
+            Object(Frame: frame);
+        }
+
         construct
         {
             orientation = Orientation.VERTICAL;
@@ -18,13 +25,22 @@ namespace SlideArchiver.Ui
         private async void AddTag(Button button)
         {
             // get user input
-            var window = new Window(WindowType.POPUP);
+            var window = new Window(WindowType.TOPLEVEL);
+            window.decorated = false;
             var box = new Box(Orientation.HORIZONTAL, 1);
             var entry = new Entry();
             box.pack_start(entry);
             var ok = new Button.from_stock(OK);
 
             ok.clicked.connect(() => {
+                var tag = entry.text.strip();
+                if(tag.length != 0)
+                {
+                    Frame.Tags.add(tag);
+                    var label = new TagLabel(Frame, tag);
+                    pack_start(label);
+                    label.show_all();
+                }
                 window.destroy();
             });
 
@@ -42,6 +58,23 @@ namespace SlideArchiver.Ui
             // store in the model
 
             // update display.
+        }
+
+        private class TagLabel : Box
+        {
+            public FrameData Frame {construct; get;}
+            public string Tag {construct; get;}
+
+            public TagLabel(FrameData frame, string tag)
+            {
+                Object(Frame: frame, Tag: tag);
+                orientation = Orientation.HORIZONTAL;
+            }
+
+            construct
+            {
+                pack_start(new Label(Tag), false);
+            }
         }
     }
 }
