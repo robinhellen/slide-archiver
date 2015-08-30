@@ -102,15 +102,15 @@ namespace SlideArchiver.Ui
 
     public class UiModule : Diva.Module
     {
-        public override void Load(Diva.ContainerBuilder builder)
+        public override void load(Diva.ContainerBuilder builder)
         {
-            builder.Register<PreviewWindow>()
-                .IgnoreProperty("transient-for")
-                .IgnoreProperty("attached-to")
-                .IgnoreProperty("type");
-            builder.Register<FixedFilmSelector>().As<FilmSelector>();
-            builder.Register<FixedSourceSelector>().As<SourceSelector>();
-            builder.Register<GridImagePreview>().As<ImagePreview>();
+            builder.register<PreviewWindow>()
+                .ignore_property("transient-for")
+                .ignore_property("attached-to")
+                .ignore_property("type");
+            builder.register<FixedFilmSelector>().as<FilmSelector>();
+            builder.register<FixedSourceSelector>().as<SourceSelector>();
+            builder.register<GridImagePreview>().as<ImagePreview>();
         }
     }
 }

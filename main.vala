@@ -6,24 +6,24 @@ namespace SlideArchiver
     public int main(string[] args)
     {
         var builder = new ContainerBuilder();
-        builder.Register<Archiver>();
-        builder.Register<DefaultScannerSelector>().As<IScannerSelector>();
-        builder.Register<FixedFormatDetector>().As<IFormatDetector>();
-        builder.Register<PictureDataGatherer>().As<IPictureDataGatherer>();
-        builder.Register<UiPictureDataGatherer>().As<IPictureDataGatherer>();
-        builder.Register<FrameScanner>().As<IFrameScanner>();
-        builder.Register<PicturesFolderFrameStorage>().As<IFrameStorage>();
-        builder.Register<FolderFilmStore>().As<FilmStorage>();
-        builder.Register<PixbufCreator>();
-        builder.RegisterModule(new Ui.UiModule());
+        builder.register<Archiver>();
+        builder.register<DefaultScannerSelector>().as<IScannerSelector>();
+        builder.register<FixedFormatDetector>().as<IFormatDetector>();
+        builder.register<PictureDataGatherer>().as<IPictureDataGatherer>();
+        builder.register<UiPictureDataGatherer>().as<IPictureDataGatherer>();
+        builder.register<FrameScanner>().as<IFrameScanner>();
+        builder.register<PicturesFolderFrameStorage>().as<IFrameStorage>();
+        builder.register<FolderFilmStore>().as<FilmStorage>();
+        builder.register<PixbufCreator>();
+        builder.register_module(new Ui.UiModule());
 
-        builder.Register<ScanContext>().SingleInstance();
+        builder.register<ScanContext>().single_instance();
 
-        var container = builder.Build();
+        var container = builder.build();
 
         Gtk.init(ref args);
 
-        var window = container.Resolve<Ui.PreviewWindow>();
+        var window = container.resolve<Ui.PreviewWindow>();
         window.destroy.connect(() => Gtk.main_quit());
         window.show_all();
         Gtk.main();
@@ -32,7 +32,7 @@ namespace SlideArchiver
         Archiver archiver;
         try
         {
-            archiver = container.Resolve<Archiver>();
+            archiver = container.resolve<Archiver>();
         }
         catch(ResolveError e)
         {
