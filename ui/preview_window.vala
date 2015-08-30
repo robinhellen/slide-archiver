@@ -23,6 +23,9 @@ namespace SlideArchiver.Ui
 
             var buttons = new ButtonBox(Orientation.HORIZONTAL);
             box.pack_start(buttons, false);
+            var save = new Button.with_label("Save");
+            buttons.pack_end(save);
+            save.sensitive = false;
             add(box);
         }
     }
