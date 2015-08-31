@@ -87,7 +87,8 @@ namespace SlideArchiver.Ui
                 Top: top + i * spacing,
                 Bottom: top + height + i * spacing,
                 Left: left,
-                Right: left + width
+                Right: left + width,
+                Rotations: 0
                 );
         }
 
@@ -105,7 +106,8 @@ namespace SlideArchiver.Ui
                 Top: top + i * yspacing,
                 Bottom: top + height + i * yspacing,
                 Left: left + row * xspacing,
-                Right: left + width + row * xspacing
+                Right: left + width + row * xspacing,
+                Rotations: 1
                 );
         }
     }

@@ -188,7 +188,32 @@ namespace SlideArchiver
                     }
                 }
             }
+
+            for(int i = 0;i < data.Rotations; i++)
+                Rotate(frame);
+
             return frame;
+        }
+
+        private void Rotate(Frame frame)
+        {
+            var bytesPerPixel = frame.BytesPerLine / frame.PixelsPerLine;
+            var oldLines = frame.Lines;
+
+            frame.Lines = frame.PixelsPerLine;
+            frame.PixelsPerLine = oldLines;
+
+            frame.BytesPerLine = oldLines * bytesPerPixel;
+
+            var original = frame.data;
+            frame.data = new uint8[frame.Lines * frame.BytesPerLine];
+
+            for(int i = 0; i < frame.Lines; i++)
+            for(int j = 0; j < frame.PixelsPerLine; j++)
+            for(int k = 0; k < bytesPerPixel; k++)
+            {
+                frame.data[(i * frame.PixelsPerLine * bytesPerPixel + j * bytesPerPixel) + k] = original[(j * frame.Lines * bytesPerPixel + (frame.Lines - i - 1) * bytesPerPixel) + k];
+            }
         }
     }
 }

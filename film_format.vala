@@ -20,6 +20,8 @@ namespace SlideArchiver
         public double Right {get; construct;}
         public double Bottom {get; construct;}
 
+        public int Rotations {get; construct;}
+
         public Collection<string> Tags {get; private set;}
     }
 }
