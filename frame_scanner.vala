@@ -29,7 +29,7 @@ namespace SlideArchiver
             return CreateFrameFromScannedFrame(scanned);
         }
 
-        public async Frame ScanAsync(Scan.Scanner scanner, FrameData frame, int resolution, ProgressReporter reporter = null)
+        public async Frame ScanAsync(Scan.Scanner scanner, FrameData frame, int resolution, ProgressReporter? reporter = null)
         {
             var session = Context.open_scanner(scanner);
             try
