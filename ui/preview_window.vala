@@ -22,7 +22,9 @@ namespace SlideArchiver.Ui
             topBox.pack_start(FilmSelector, true, true);
             box.pack_start(topBox, false);
 
-            box.pack_start(ImagePreview, true, false);
+            var scrolled = new ScrolledWindow(null, null);
+            scrolled.add_with_viewport(ImagePreview);
+            box.pack_start(scrolled, true, true);
 
             var buttons = new ButtonBox(Orientation.HORIZONTAL);
             box.pack_start(buttons, false);
