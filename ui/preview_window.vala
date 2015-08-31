@@ -50,6 +50,7 @@ namespace SlideArchiver.Ui
             {
                 FrameStorage.Store(frame, pictureData, i++);
             }
+            film.NextFrame += scannedFrames.size;
         }
     }
 
@@ -162,7 +163,9 @@ namespace SlideArchiver.Ui
                 .ignore_property("attached-to")
                 .ignore_property("type");
             builder.register<LastOrNewFilmSelector>().as<FilmSelector>();
-            builder.register<FixedSourceSelector>().as<SourceSelector>();
+            builder.register<DropDownSourceSelector>()
+                .as<SourceSelector>()
+                .single_instance();
             builder.register<GridImagePreview>().as<ImagePreview>();
         }
     }

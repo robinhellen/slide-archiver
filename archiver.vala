@@ -80,7 +80,7 @@ namespace SlideArchiver
     {
         public int Id {get; construct set;}
         public Collection<string> Tags {get; construct;}
-        public int NextFrame {get; construct;}
+        public int NextFrame {get; construct set;}
         public File Folder {get; construct set;}
     }
 }

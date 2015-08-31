@@ -22,6 +22,7 @@ namespace SlideArchiver.Ui
             PreviewsAvailable = false;
             row_spacing = 2;
             GetPreviews.begin();
+            SourceSelector.notify["Format"].connect(Rescan);
         }
 
         private async void GetPreviews()
