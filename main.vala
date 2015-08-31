@@ -23,24 +23,18 @@ namespace SlideArchiver
 
         Gtk.init(ref args);
 
-        var window = container.resolve<Ui.PreviewWindow>();
-        window.destroy.connect(() => Gtk.main_quit());
-        window.show_all();
-        Gtk.main();
-
-
-        Archiver archiver;
         try
         {
-            archiver = container.resolve<Archiver>();
+            var window = container.resolve<Ui.PreviewWindow>();
+            window.destroy.connect(() => Gtk.main_quit());
+            window.show_all();
+            Gtk.main();
         }
         catch(ResolveError e)
         {
             stderr.printf(@"Unable to properly run the archiver: $(e.message)\n");
             return -1;
         }
-
-        archiver.Run();
 
         return 0;
     }
