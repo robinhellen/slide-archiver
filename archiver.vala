@@ -51,6 +51,9 @@ namespace SlideArchiver
     public interface IFrameScanner : Object
     {
         public abstract Frame Scan(Scan.Scanner scanner, FrameData frameData, int resolution);
+        public abstract async Frame ScanAsync(Scan.Scanner scanner, FrameData frame, int resolution, ProgressReporter? reporter = null);
+        public abstract async Collection<Frame> ScanFramesAsync(Scan.Scanner scanner, Collection<FrameData> frames, int resolution, ProgressReporter? reporter = null);
+
     }
 
     public interface IFrameStorage : Object
