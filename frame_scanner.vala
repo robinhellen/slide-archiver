@@ -140,19 +140,53 @@ namespace SlideArchiver
         {
             // currently assumes all frames have the same left, right
             var frame = new Frame();
-            frame.BytesPerLine = scanned.BytesPerLine;
-            frame.PixelsPerLine = scanned.PixelsPerLine;
             frame.Depth = scanned.Depth;
 
-            int topLine = (int) (((data.Top - asScanned.Top) * scanned.Lines) / (asScanned.Bottom - asScanned.Top));
-            int bottomLine = int.min((int) (((data.Bottom - asScanned.Top) * scanned.Lines) / (asScanned.Bottom - asScanned.Top) + 1), scanned.Lines);
+            int topLine = (data.Top == asScanned.Top) ?
+                            0 :
+                            (int) (((data.Top - asScanned.Top) * scanned.Lines) / (asScanned.Bottom - asScanned.Top));
+            int bottomLine = (data.Bottom == asScanned.Bottom) ?
+                            scanned.Lines :
+                            int.min((int) (((data.Bottom - asScanned.Top) * scanned.Lines) / (asScanned.Bottom - asScanned.Top) + 1), scanned.Lines);
 
             frame.Lines = bottomLine - topLine;
-            var startByte = (topLine * frame.BytesPerLine);
-            frame.data = new uint8[frame.Lines * frame.BytesPerLine];
-            for(int i = 0; i < (frame.Lines * frame.BytesPerLine); i++)
+
+            if(data.Left == asScanned.Left && data.Right == asScanned.Right)
             {
-                frame.data[i] = scanned.data[i + startByte];
+                frame.BytesPerLine = scanned.BytesPerLine;
+                frame.PixelsPerLine = scanned.PixelsPerLine;
+                var startByte = (topLine * frame.BytesPerLine);
+                frame.data = new uint8[frame.Lines * frame.BytesPerLine];
+                for(int i = 0; i < (frame.Lines * frame.BytesPerLine); i++)
+                {
+                    frame.data[i] = scanned.data[i + startByte];
+                }
+            }
+            else
+            {
+                var startPixel = (data.Left == asScanned.Left) ?
+                                0 :
+                                (int) (((data.Left - asScanned.Left) * scanned.PixelsPerLine) / (asScanned.Right - asScanned.Left));
+                var startByte = (data.Left == asScanned.Left) ?
+                                0 :
+                                startPixel * scanned.BytesPerLine / scanned.PixelsPerLine;
+                var endPixel = (data.Right == asScanned.Right) ?
+                                scanned.PixelsPerLine :
+                                (int) (((data.Right - asScanned.Left) * scanned.PixelsPerLine) / (asScanned.Right - asScanned.Left));
+                var endByte = (data.Right == asScanned.Right) ?
+                                scanned.BytesPerLine :
+                                endPixel * scanned.BytesPerLine / scanned.PixelsPerLine;;
+
+                frame.BytesPerLine = endByte - startByte;
+                frame.PixelsPerLine = endPixel - startPixel;
+                frame.data = new uint8[frame.Lines * frame.BytesPerLine];
+                for(int i = 0; i < (frame.Lines); i++)
+                {
+                    for(int j = 0; j < frame.BytesPerLine; j++)
+                    {
+                        frame.data[i * frame.BytesPerLine + j] = scanned.data[(i + topLine) * scanned.BytesPerLine + startByte + j];
+                    }
+                }
             }
             return frame;
         }
