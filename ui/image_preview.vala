@@ -38,11 +38,15 @@ namespace SlideArchiver.Ui
                 attach(bars[i], 0, 2 * i + 1, 1, 1);
             }
 
+            var s = yield FrameScanner.ScanFramesAsync(scanner, SourceSelector.Format.Frames, 300, reporters[0]);
+
+            var scannedFrames = s.to_array();
+
             for(int i = 0; i < f.length; i++)
             {
                 var frame = f[i];
                 bars[i].text = "Scanning";
-                var scanned = yield FrameScanner.ScanAsync(scanner, frame, 300, reporters[i]);
+                var scanned = scannedFrames[i];
                 bars[i].set_fraction(1);
                 var pixbuf = PixbufCreator.CreateScaledPixbufFromScannedFrame(scanned, 200);
 
