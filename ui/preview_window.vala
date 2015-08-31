@@ -29,19 +29,23 @@ namespace SlideArchiver.Ui
             var save = new Button.with_label("Save");
             buttons.pack_end(save);
             save.sensitive = false;
-            save.clicked.connect(() => {
-                var scanner = ScannerSelector.GetScanner();
-                var film = FilmSelector.Film;
-                var pictureData = (PictureData)Object.new(typeof(PictureData), FilmRoll: film, StartingFrameNumber: film.NextFrame);
-                int i = 0;
-                foreach(var frame in SourceSelector.Format.Frames)
-                {
-                    var capturedFrame = FrameScanner.Scan(scanner, frame, 300);
-                    FrameStorage.Store(capturedFrame, pictureData, i++);
-                }
-            });
+            save.clicked.connect(SaveClicked);
+
             add(box);
             ImagePreview.notify["PreviewsAvailable"].connect(() => save.sensitive = ImagePreview.PreviewsAvailable);
+        }
+
+        private async void SaveClicked()
+        {
+            var scanner = ScannerSelector.GetScanner();
+            var film = FilmSelector.Film;
+            var pictureData = (PictureData)Object.new(typeof(PictureData), FilmRoll: film, StartingFrameNumber: film.NextFrame);
+            int i = 0;
+            var scannedFrames = yield FrameScanner.ScanFramesAsync(scanner, SourceSelector.Format.Frames, 300);
+            foreach(var frame in scannedFrames)
+            {
+                FrameStorage.Store(frame, pictureData, i++);
+            }
         }
     }
 
