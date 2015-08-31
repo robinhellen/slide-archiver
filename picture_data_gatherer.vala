@@ -27,5 +27,6 @@ namespace SlideArchiver
     {
         public abstract FilmRoll? GetFilmById(int id);
         public abstract void StoreNewRoll(FilmRoll roll);
+        public abstract FilmRoll GetLastRoll();
     }
 }

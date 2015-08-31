@@ -56,5 +56,21 @@ namespace SlideArchiver
             roll.Id = id;
             roll.Folder = tryFolder;
         }
+
+        public FilmRoll GetLastRoll()
+        {
+            int id = 0;
+
+            var enumerate = baseFolder.enumerate_children("standard::*", FileQueryInfoFlags.NONE);
+            FileInfo info;
+            while((info = enumerate.next_file()) != null)
+            {
+                var x = int.parse(info.get_name());
+                if(x > id)
+                    id = x;
+            }
+
+            return GetFilmById(id);
+        }
     }
 }

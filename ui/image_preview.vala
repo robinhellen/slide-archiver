@@ -12,8 +12,11 @@ namespace SlideArchiver.Ui
         public FrameScanner FrameScanner {construct; private get;}
         public PixbufCreator PixbufCreator {construct; private get;}
 
+        public bool PreviewsAvailable {get; protected set;}
+
         construct
         {
+            PreviewsAvailable = false;
             row_spacing = 2;
             GetPreviews.begin();
         }
@@ -51,6 +54,7 @@ namespace SlideArchiver.Ui
                 attach(tags, 1, 2*i, 1, 1);
                 tags.show_all();
             }
+            PreviewsAvailable = true;
         }
     }
 

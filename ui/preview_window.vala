@@ -41,6 +41,7 @@ namespace SlideArchiver.Ui
                 }
             });
             add(box);
+            ImagePreview.notify["PreviewsAvailable"].connect(() => save.sensitive = ImagePreview.PreviewsAvailable);
         }
     }
 
@@ -55,6 +56,7 @@ namespace SlideArchiver.Ui
 
     public interface ImagePreview : Widget
     {
+        public abstract bool PreviewsAvailable {get; protected set;}
     }
 
     public class FixedFilmSelector : FilmSelector, Label
@@ -66,6 +68,34 @@ namespace SlideArchiver.Ui
         {
             Film = Storage.GetFilmById(1);
             set_label("Film Id 1");
+        }
+    }
+
+    public class LastOrNewFilmSelector : FilmSelector, Box
+    {
+        public FilmRoll Film {get; protected set;}
+        public FilmStorage Storage {construct; private get;}
+
+        private Label filmName;
+
+        construct
+        {
+            orientation = Orientation.HORIZONTAL;
+            homogeneous = false;
+            spacing = 3;
+
+            Film = Storage.GetLastRoll();
+            filmName = new Label(@"Film Id $(Film.Id)");
+            pack_start(filmName, false);
+
+            var create = new Button.with_label("New");
+            create.clicked.connect(() =>
+            {
+                Film = (FilmRoll)Object.new(typeof(FilmRoll), Tags: Collection.empty<string>(), NextFrame: 0);
+                Storage.StoreNewRoll(Film);
+                filmName.set_label(@"Film Id $(Film.Id)");
+            });
+            pack_start(create, false);
         }
     }
 
@@ -122,7 +152,7 @@ namespace SlideArchiver.Ui
                 .ignore_property("transient-for")
                 .ignore_property("attached-to")
                 .ignore_property("type");
-            builder.register<FixedFilmSelector>().as<FilmSelector>();
+            builder.register<LastOrNewFilmSelector>().as<FilmSelector>();
             builder.register<FixedSourceSelector>().as<SourceSelector>();
             builder.register<GridImagePreview>().as<ImagePreview>();
         }
