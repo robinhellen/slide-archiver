@@ -31,6 +31,10 @@ namespace SlideArchiver.Ui
             save.sensitive = false;
             save.clicked.connect(SaveClicked);
 
+            var rescan = new Button.with_label("Rescan");
+            rescan.clicked.connect(() => ImagePreview.Rescan.begin());
+            buttons.pack_end(rescan);
+
             add(box);
             ImagePreview.notify["PreviewsAvailable"].connect(() => save.sensitive = ImagePreview.PreviewsAvailable);
         }
@@ -61,6 +65,7 @@ namespace SlideArchiver.Ui
     public interface ImagePreview : Widget
     {
         public abstract bool PreviewsAvailable {get; protected set;}
+        public abstract async void Rescan();
     }
 
     public class FixedFilmSelector : FilmSelector, Label

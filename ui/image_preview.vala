@@ -1,4 +1,5 @@
 using Gdk;
+using Gee;
 using Gtk;
 
 using Scan;
@@ -13,6 +14,8 @@ namespace SlideArchiver.Ui
         public PixbufCreator PixbufCreator {construct; private get;}
 
         public bool PreviewsAvailable {get; protected set;}
+
+        private Collection<Widget> children = new LinkedList<Widget>();
 
         construct
         {
@@ -53,12 +56,25 @@ namespace SlideArchiver.Ui
                 var image = new Image.from_pixbuf(pixbuf);
                 remove(bars[i]);
                 attach(image, 0, 2*i, 1, 2);
+                children.add(image);
                 image.show();
                 var tags = new FrameTags(frame);
                 attach(tags, 1, 2*i, 1, 1);
+                children.add(tags);
                 tags.show_all();
             }
             PreviewsAvailable = true;
+        }
+
+        public async void Rescan()
+        {
+            PreviewsAvailable = false;
+            foreach(var child in children)
+            {
+                remove(child);
+            }
+            children.clear();
+            yield GetPreviews();
         }
     }
 
