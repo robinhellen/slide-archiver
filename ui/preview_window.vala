@@ -9,6 +9,9 @@ namespace SlideArchiver.Ui
         public SourceSelector SourceSelector {construct; private get;}
 
         public ImagePreview ImagePreview {construct; private get;}
+        public IScannerSelector ScannerSelector {construct; private get;}
+        public IFrameStorage FrameStorage {construct; private get;}
+        public IFrameScanner FrameScanner {construct; private get;}
 
         construct
         {
@@ -26,6 +29,17 @@ namespace SlideArchiver.Ui
             var save = new Button.with_label("Save");
             buttons.pack_end(save);
             save.sensitive = false;
+            save.clicked.connect(() => {
+                var scanner = ScannerSelector.GetScanner();
+                var film = FilmSelector.Film;
+                var pictureData = (PictureData)Object.new(typeof(PictureData), FilmRoll: film, StartingFrameNumber: film.NextFrame);
+                int i = 0;
+                foreach(var frame in SourceSelector.Format.Frames)
+                {
+                    var capturedFrame = FrameScanner.Scan(scanner, frame, 300);
+                    FrameStorage.Store(capturedFrame, pictureData, i++);
+                }
+            });
             add(box);
         }
     }
