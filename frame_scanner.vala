@@ -192,6 +192,9 @@ namespace SlideArchiver
             for(int i = 0;i < data.Rotations; i++)
                 Rotate(frame);
 
+            if(data.IsNegative)
+                Negative(frame);
+
             return frame;
         }
 
@@ -214,6 +217,22 @@ namespace SlideArchiver
             {
                 frame.data[(i * frame.PixelsPerLine * bytesPerPixel + j * bytesPerPixel) + k] = original[(j * frame.Lines * bytesPerPixel + (frame.Lines - i - 1) * bytesPerPixel) + k];
             }
+        }
+
+        private void Negative(Frame frame)
+        {
+            if(frame.Depth == 16)
+            {
+                var data_ptr = (uint8 *) frame.data;
+                var wide_data_ptr = (uint16 *) data_ptr;
+
+                for(int i = 0; i < frame.data.length / 2; i++)
+                {
+                    wide_data_ptr[i] = ((uint16.MAX - wide_data_ptr[i].swap_little_endian_big_endian() * (uint16)2) ).swap_little_endian_big_endian();
+                }
+            }
+            else
+                assert_not_reached();
         }
     }
 }

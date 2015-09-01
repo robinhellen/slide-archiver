@@ -11,14 +11,14 @@ namespace SlideArchiver.Ui
 
         construct
         {
-            Format = Canon9000Slides135();
+            Format = Canon9000Negatives135(4,4);
 
             chooser = new ComboBoxText();
             add(chooser);
 
             chooser.append_text("135mm film mounted slides");
             chooser.append_text("135mm film negatives 4,4");
-            chooser.set_active(0);
+            chooser.set_active(1);
 
             chooser.changed.connect(() => Update());
         }
@@ -88,7 +88,8 @@ namespace SlideArchiver.Ui
                 Bottom: top + height + i * spacing,
                 Left: left,
                 Right: left + width,
-                Rotations: 0
+                Rotations: 0,
+                IsNegative: false
                 );
         }
 
@@ -107,7 +108,8 @@ namespace SlideArchiver.Ui
                 Bottom: top + height + i * yspacing,
                 Left: left + row * xspacing,
                 Right: left + width + row * xspacing,
-                Rotations: 1
+                Rotations: 1,
+                IsNegative: true
                 );
         }
     }

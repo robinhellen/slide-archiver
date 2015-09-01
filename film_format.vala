@@ -21,6 +21,7 @@ namespace SlideArchiver
         public double Bottom {get; construct;}
 
         public int Rotations {get; construct;}
+        public bool IsNegative {get; construct;}
 
         public Collection<string> Tags {get; private set;}
     }
