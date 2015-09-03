@@ -97,10 +97,10 @@ namespace SlideArchiver.Ui
         {
             const double left = 76.876;
             const double width = 24.384;
-            const double top = 25.042;
-            const double height = 35.573;
+            const double top = 21.849;
+            const double height = 36.000;
 
-            const double yspacing = 37.151;
+            const double yspacing = 37.872;
             const double xspacing = 39.302;
 
             return (FrameData)Object.new(typeof(FrameData),
